@@ -1,7 +1,54 @@
 ---
-// import heroImage from "@/assets/images/hero.webp";
 import Image from "astro/components/Image.astro";
+import hero1 from "@/assets/images/hero/hero1.webp";
+import hero2 from "@/assets/images/hero/hero2.webp";
+import hero3 from "@/assets/images/hero/hero3.webp";
+
+const heroImages = [hero1, hero2, hero3];
 ---
-<section id="home">
-    <!-- <Image src={heroImage} alt="Claudia & Alberto" class="w-full h-lvh"/> -->
+<section id="home" class="h-lvh max-w-vw flex flex-col items-center justify-center px-8 gap-16">
+    <div class="flex max-w-vw gap-8">
+        <div class="flex flex-col w-6/7 max-w-48">
+            <h1 class="text-4xl leading-[0.8]"><span class="text-[8.5rem] leading-[0.8]">C</span> &</h1>
+            <h1 class="text-[8.5rem] leading-[0.8] text-right">A</h1>
+        </div>
+        <div class="flex flex-col gap-4">
+            {heroImages.map((image, index) => (
+                <Image 
+                    src={image} 
+                    alt={`Clau & Arturo ${index + 1}`} 
+                    class="w-72 h-32 object-cover border-2 grayscale"
+                />
+            ))}
+        </div>
+    </div>
+    <div class="border-l-3 pl-2 w-full h-24 flex justify-between relative">
+        <div>
+            <span class="font-extrabold tracking-widest">Celebra con nosotros</span>
+            <h1 class="names font-black tracking-wider">Claudia & Alberto</h2>
+        </div>
+        <div class="flex flex-col absolute right-2 -top-10">
+            <span class="span_date_1">11</span>
+            <span class="span_date">04</span>
+            <span class="span_date">26</span>
+        </div>
+    </div>
 </section>
+
+<style>
+    .names {
+        font-family: var(--main-font);
+        font-weight: bolder;
+    }
+    .span_date, .span_date_1 {
+        font-family: var(--secondary-font);
+        font-size: 3rem;
+        font-weight: bold;
+        letter-spacing: .5rem;
+        line-height: 1;
+    }
+    .span_date_1 {
+        letter-spacing: 2rem;
+        padding-left: 5px;
+    }
+</style>

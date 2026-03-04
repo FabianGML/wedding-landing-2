@@ -1,6 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-    --color-main: #FBF6F4;
+    --color-main: #EFEEEC;
     --color-secondary: #745343;
+    --main-font: "Cinzel", serif;
+    --secondary-font: "Dream Avenue", serif;
+}
+
+@font-face {
+    font-family: "Cinzel";
+    src: url("/fonts/Cinzel-VariableFont_wght.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Dream Avenue";
+    src: url("/fonts/Dream Avenue.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+h1, 
+h2,
+h3 {
+   font-family: var(--secondary-font);
+}
+
+body {
+    background-color: var(--color-main);
+    font-family: var(--main-font);
 }

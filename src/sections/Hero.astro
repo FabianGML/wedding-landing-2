@@ -5,27 +5,28 @@ import hero2 from "@/assets/images/hero/hero2.webp";
 import hero3 from "@/assets/images/hero/hero3.webp";
 
 const heroImages = [hero1, hero2, hero3];
+const stairClasses = ['lg:-ml-36',  'lg:ml-0', 'lg:ml-36'];
 ---
 <section id="home" class="h-lvh max-w-vw flex flex-col items-center justify-center px-8 gap-16">
-    <div class="flex max-w-vw gap-8">
+    <div class="flex w-full justify-between lg:justify-evenly">
         <div class="flex flex-col w-6/7 max-w-48">
-            <h1 class="text-4xl leading-[0.8]"><span class="text-[8.5rem] leading-[0.8]">C</span> &</h1>
-            <h1 class="text-[8.5rem] leading-[0.8] text-right">A</h1>
+            <h1 class="text-4xl leading-[0.8] lg:text-5xl"><span class="text-[8.5rem] leading-[0.8] lg:text-[10rem]">C</span> &</h1>
+            <h1 class="text-[8.5rem] leading-[0.8] text-right lg:text-[10rem]">A</h1>
         </div>
         <div class="flex flex-col gap-4">
             {heroImages.map((image, index) => (
                 <Image 
                     src={image} 
                     alt={`Clau & Arturo ${index + 1}`} 
-                    class="w-72 h-32 object-cover border-2 grayscale"
+                    class={`w-36 h-32 object-cover border-2 grayscale lg:h-48 lg:w-52 ${stairClasses[index] ?? ''}`}
                 />
             ))}
         </div>
     </div>
-    <div class="border-l-3 pl-2 w-full h-24 flex justify-between relative">
+    <div class="border-l-3 pl-2 w-full h-24 lg:max-w-xl flex justify-between relative">
         <div>
-            <span class="font-extrabold tracking-widest">Celebra con nosotros</span>
-            <h1 class="names font-black tracking-wider">Claudia & Alberto</h2>
+            <span class="font-extrabold tracking-widest lg:text-lg">Celebra con nosotros</span>
+            <h1 class="names tracking-wider lg:text-lg">Claudia & Alberto</h2>
         </div>
         <div class="flex flex-col absolute -right-3 -top-10">
             <span class="span_date_1">11</span>

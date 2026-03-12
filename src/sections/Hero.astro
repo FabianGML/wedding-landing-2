@@ -3,6 +3,7 @@ import Image from "astro/components/Image.astro";
 import hero1 from "@/assets/images/hero/hero1.webp";
 import hero2 from "@/assets/images/hero/hero2.webp";
 import hero3 from "@/assets/images/hero/hero3.webp";
+import Timer from "@/components/Timer.astro";
 
 const heroImages = [hero1, hero2, hero3];
 ---
@@ -27,11 +28,7 @@ const heroImages = [hero1, hero2, hero3];
             <span class="font-extrabold tracking-widest lg:text-lg">Celebra con nosotros</span>
             <h1 class="names tracking-wider lg:text-lg">Claudia & Alberto</h2>
         </div>
-        <div class="flex flex-col absolute -right-3 -top-10">
-            <span class="span_date_1">11</span>
-            <span class="span_date">04</span>
-            <span class="span_date">26</span>
-        </div>
+        <Timer />
     </div>
 </section>
 
@@ -39,16 +36,5 @@ const heroImages = [hero1, hero2, hero3];
     .names {
         font-family: var(--main-font);
         font-weight: bolder;
-    }
-    .span_date, .span_date_1 {
-        font-family: var(--secondary-font);
-        font-size: 3rem;
-        font-weight: bold;
-        letter-spacing: .5rem;
-        line-height: 1;
-    }
-    .span_date_1 {
-        letter-spacing: 2rem;
-        padding-left: 5px;
     }
 </style>

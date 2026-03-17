@@ -1,19 +1,80 @@
 <div class="flex flex-col absolute -right-3 -top-10">
-    <span class="span_date_1">11</span>
-    <span class="span_date">04</span>
-    <span class="span_date">26</span>
+    <span class="span_date" id="days">00</span>
+    <span class="label">días</span>
+    <span class="span_date" id="hours">00</span>
+    <span class="label">hrs</span>
+    <span class="span_date" id="minutes">00</span>
+    <span class="label">min</span>
+    <span class="span_date" id="seconds">00</span>
+    <span class="label">seg</span>
 </div>
 
 <style>
-    .span_date, .span_date_1 {
+    .span_date {
         font-family: var(--secondary-font);
-        font-size: 3rem;
+        font-size: 2rem;
         font-weight: bold;
-        letter-spacing: .5rem;
         line-height: 1;
+        display: inline-block;
+        width: 3.8rem;
     }
-    .span_date_1 {
-        letter-spacing: 2rem;
-        padding-left: 5px;
+    .digit {
+        display: inline-block;
+        width: 1.5rem;
+        text-align: center;
+        overflow: hidden;
+    }
+    .digit:first-child {
+        margin-right: 0.4rem;
+    }
+    .label {
+        font-family: var(--secondary-font);
+        font-size: 0.6rem;
+        letter-spacing: .2rem;
+        line-height: 1;
+        margin-bottom: 0.25rem;
     }
 </style>
+
+<script>
+    const target = new Date('2026-04-11T17:00:00-06:00');
+
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+
+    function toDigitSpans(n: number): string {
+        const s = String(n).padStart(2, '0');
+        return `<span class="digit">${s[0]}</span><span class="digit">${s[1]}</span>`;
+    }
+
+    const MS_PER_SECOND = 1000;
+    const MS_PER_MINUTE = MS_PER_SECOND * 60;
+    const MS_PER_HOUR = MS_PER_MINUTE * 60;
+    const MS_PER_DAY = MS_PER_HOUR * 24;
+
+    function update() {
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+        const diff = target.getTime() - Date.now();
+
+        if (diff <= 0) {
+            clearInterval(intervalId);
+            daysEl.innerHTML = toDigitSpans(0);
+            hoursEl.innerHTML = toDigitSpans(0);
+            minutesEl.innerHTML = toDigitSpans(0);
+            secondsEl.innerHTML = toDigitSpans(0);
+            return;
+        }
+
+        daysEl.innerHTML = toDigitSpans(Math.floor(diff / MS_PER_DAY));
+        hoursEl.innerHTML = toDigitSpans(Math.floor((diff % MS_PER_DAY) / MS_PER_HOUR));
+        minutesEl.innerHTML = toDigitSpans(Math.floor((diff % MS_PER_HOUR) / MS_PER_MINUTE));
+        secondsEl.innerHTML = toDigitSpans(Math.floor((diff % MS_PER_MINUTE) / MS_PER_SECOND));
+    }
+
+    update();
+    const intervalId = setInterval(update, 1000);
+    document.addEventListener('astro:before-swap', () => clearInterval(intervalId));
+</script>

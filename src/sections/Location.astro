@@ -1,6 +1,7 @@
 ---
 import SectionContainer from "@/components/SectionContainer.astro";
 import DirectionStep from "@/components/DirectionStep.astro";
+import Map from "@/components/Map.astro";
 ---
 
 <SectionContainer>
@@ -26,13 +27,18 @@ import DirectionStep from "@/components/DirectionStep.astro";
 
         <hr class="border-t border-current opacity-10" />
 
-        <ol class="space-y-6 list-none">
-            <DirectionStep step="01">Una vez cruces el letrero de 'Las Calzadas', gira a la derecha en la calle (poner calle)</DirectionStep>
-            <DirectionStep step="02">Cuando veas el letrero...</DirectionStep>
-            <DirectionStep step="03">Indica que vas a <mark class="bg-transparent font-black italic">Los Duraznos 119</mark>.</DirectionStep>
-            <DirectionStep step="04">Sigue recto hasta ver un parque.</DirectionStep>
-            <DirectionStep step="05">Sigue derecho hasta que encuentres la pared final del fraccionamiento.</DirectionStep>
-            <DirectionStep step="06">Gira a la derecha y del lado derecho estara el lugar del evento.</DirectionStep>
-        </ol>
+        <div class="lg:flex lg:items-stretch lg:gap-12">
+            <ol class="space-y-6 list-none lg:flex-1">
+                <DirectionStep step="01">Una vez cruces el letrero de 'Las Calzadas', gira a la derecha en la calle (poner calle)</DirectionStep>
+                <DirectionStep step="02">Cuando veas el letrero...</DirectionStep>
+                <DirectionStep step="03">Indica que vas a <mark class="bg-transparent font-black italic">Los Duraznos 119</mark>.</DirectionStep>
+                <DirectionStep step="04">Sigue recto hasta ver un parque.</DirectionStep>
+                <DirectionStep step="05">Sigue derecho hasta que encuentres la pared final del fraccionamiento.</DirectionStep>
+                <DirectionStep step="06">Gira a la derecha y del lado derecho estara el lugar del evento.</DirectionStep>
+            </ol>
+            <div class="lg:flex-1 lg:self-stretch mt-8 lg:mt-0">
+                <Map />
+            </div>
+        </div>
     </div>
 </SectionContainer>

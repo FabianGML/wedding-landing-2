@@ -1,0 +1,12 @@
+---
+interface Props {
+    step: string;
+}
+
+const { step } = Astro.props;
+---
+
+<li class="flex gap-6 items-baseline">
+    <span class="text-xs opacity-40 tracking-widest shrink-0">{step}</span>
+    <span class="text-sm leading-relaxed"><slot /></span>
+</li>

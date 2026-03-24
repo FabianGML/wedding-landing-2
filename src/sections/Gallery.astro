@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import hero1 from "@/assets/images/hero/hero1.webp";
+import hero2 from "@/assets/images/hero/hero2.webp";
+import hero3 from "@/assets/images/hero/hero3.webp";
+
+const cells = [
+  { img: hero1, span: "lg:col-span-2 lg:row-span-2" },
+  { img: hero2, span: "" },
+  { img: hero3, span: "" },
+  { img: hero1, span: "lg:row-span-2" },
+  { img: hero2, span: "" },
+  { img: hero3, span: "" },
+  { img: hero1, span: "" },
+  { img: hero2, span: "lg:col-span-2" },
+];
+---
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+<section id="gallery" class="py-16 px-8 max-w-5xl mx-auto">
+  <h2 class="text-4xl text-center mb-10 text-second{{{wry" style="font-family: var(--main-font);">
+    Nosotros
+  </h2>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-3 lg:auto-rows-[200px] gap-3">
+    {cells.map((cell, i) => (
+      <div class={`overflow-hidden rounded-sm border border-secondary/30 h-56 lg:h-auto ${cell.span}`}>
+        <a class="glightbox block w-full h-full" href={cell.img.src} data-gallery="gallery">
+          <Image
+            src={cell.img}
+            alt={`Claudia & Alberto ${i + 1}`}
+            class="w-full h-full object-cover transition-all duration-500 cursor-pointer"
+          />
+        </a>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    GLightbox({ selector: '.glightbox', touchNavigation: true });
+  });
+</script>

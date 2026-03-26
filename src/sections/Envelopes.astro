@@ -1,0 +1,128 @@
+---
+import SectionContainer from "@/components/SectionContainer.astro";
+---
+
+<section id="envelopes">
+    <SectionContainer>
+        <div class="flex justify-center py-16">
+            <div class="floating-card p-8 md:p-10">
+                <canvas class="sparkles"></canvas>
+                <div class="card-content">
+                    <div class="space-y-8">
+                        <div class="space-y-3">
+                            <p class="font-extrabold tracking-widest">Un regalo especial</p>
+                            <h2 class="text-4xl text-secondary" style="font-family: var(--main-font);">
+                                Lluvia de sobres
+                            </h2>
+                            <p class="opacity-60 text-sm leading-relaxed">
+                                Nuestra mayor alegría es tenerte con nosotros en este día tan especial —
+                                tu presencia es el regalo más grande que podemos recibir. Sin embargo, si
+                                deseas obsequiarnos algo, un sobre será profundamente apreciado y nos
+                                ayudará a construir juntos nuestra nueva vida.
+                            </p>
+                        </div>
+
+                        <hr class="border-t border-current opacity-10" />
+
+                        <p class="text-sm italic opacity-40">
+                            Con todo nuestro amor, <mark class="bg-transparent font-black italic">Claudia & Alberto</mark>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </SectionContainer>
+</section>
+
+<style>
+    .floating-card {
+        position: relative;
+        overflow: hidden;
+        max-width: 32rem;
+        width: 100%;
+        border-radius: 1.5rem;
+        background: rgba(255, 255, 255, 0.55);
+        box-shadow:
+            0 4px 6px rgba(116, 83, 67, 0.04),
+            0 10px 24px rgba(116, 83, 67, 0.08),
+            0 20px 48px rgba(116, 83, 67, 0.06);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .card-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sparkles {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+    }
+</style>
+
+<script>
+    const canvas = document.querySelector('.sparkles') as HTMLCanvasElement;
+    if (canvas) {
+        const ctx = canvas.getContext('2d')!;
+        const particles: { x: number; y: number; size: number; speed: number; opacity: number; flicker: number }[] = [];
+        const COUNT = 50;
+
+        function resize() {
+            const rect = canvas.parentElement!.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < COUNT; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1 + 0.3,
+                    speed: Math.random() * 0.4 + 0.15,
+                    opacity: Math.random() * 0.5 + 0.5,
+                    flicker: Math.random() * Math.PI * 2,
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const p of particles) {
+                p.y -= p.speed;
+                p.flicker += 0.03;
+                const alpha = p.opacity * (0.8 + 0.8 * Math.sin(p.flicker));
+
+                if (p.y < -5) {
+                    p.y = canvas.height + 5;
+                    p.x = Math.random() * canvas.width;
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${alpha})`;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.25})`;
+                ctx.fill();
+            }
+            requestAnimationFrame(draw);
+        }
+
+        init();
+        draw();
+        window.addEventListener('resize', resize);
+    }
+</script>

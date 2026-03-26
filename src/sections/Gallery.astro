@@ -1,13 +1,14 @@
 ---
+import BentoCard from '../components/BentoCard.astro';
+
 const cells = [
   { span: "col-span-2 h-72 lg:col-span-2 lg:row-span-2 lg:h-auto" },
   { span: "h-44 lg:h-auto" },
   { span: "h-44 lg:h-auto" },
   { span: "h-auto row-span-2 lg:row-span-2 lg:h-auto" },
   { span: "h-44 lg:h-auto" },
-  { span: "h-44 lg:h-auto" },
-  { span: "h-44 lg:h-auto" },
-  { span: "col-span-2 h-44 lg:col-span-2 lg:h-auto" },
+  { span: "h-44 lg:h-[30rem]" },
+  { span: "h-52 col-span-2 lg:h-auto" },
 ];
 ---
 
@@ -15,21 +16,12 @@ const cells = [
 
 <section id="gallery" class="py-16 px-8 max-w-5xl mx-auto">
   <h2 class="text-4xl text-center mb-10 text-secondary" style="font-family: var(--main-font);">
-    Nosotros
+    Nuestra historia
   </h2>
 
   <div class="grid grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 lg:auto-rows-[200px] gap-3">
     {cells.map((cell, i) => (
-      <div class={`overflow-hidden rounded-sm border border-secondary/30 ${cell.span}`}>
-        <a class="glightbox block w-full h-full" href={`/images/gallery/image-${i + 1}.webp`} data-gallery="gallery">
-          <img
-            src={`/images/gallery/image-${i + 1}-bento.webp`}
-            alt={`Claudia & Alberto ${i + 1}`}
-            class="w-full h-full object-cover transition-all duration-500 cursor-pointer"
-            loading="lazy"
-          />
-        </a>
-      </div>
+      <BentoCard span={cell.span} index={i + 1} />
     ))}
   </div>
 </section>

@@ -1,13 +1,80 @@
 ---
 ---
 
-<div class="w-full h-[100vw] lg:h-full overflow-hidden">
-    <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.4!2d-104.68174!3d23.9781312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bc7ea993e8e35%3A0x3229a118b8dbc60f!2sFraccionamiento%20Las%20Calzadas!5e0!3m2!1ses!2smx!4v1"
-        class="w-full h-full grayscale contrast-125"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-    ></iframe>
+<div class="w-full h-[100vw] lg:h-full min-h-[400px] overflow-hidden" id="map-container">
+    <div id="leaflet-map" class="w-full h-full"></div>
 </div>
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+/>
+
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+        const entrance = [23.977971, -104.681496];
+        const venue = [23.974018, -104.679533];
+
+        const map = L.map("leaflet-map", {
+            center: [(entrance[0] + venue[0]) / 2, (entrance[1] + venue[1]) / 2],
+            zoom: 17,
+            scrollWheelZoom: false,
+        });
+
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: "abcd",
+            maxZoom: 20,
+        }).addTo(map);
+
+        const markerIcon = L.divIcon({
+            className: "",
+            html: '<div style="width:12px;height:12px;background:#000;border-radius:50%;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,0.4)"></div>',
+            iconSize: [12, 12],
+            iconAnchor: [6, 6],
+        });
+
+        const venueIcon = L.divIcon({
+            className: "",
+            html: '<div style="width:16px;height:16px;background:#000;border-radius:50%;border:3px solid #fff;box-shadow:0 0 6px rgba(0,0,0,0.5)"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+        });
+
+        L.marker(entrance, { icon: markerIcon })
+            .addTo(map)
+            .bindPopup("<b>Entrada</b><br>Fraccionamiento Las Calzadas");
+
+        L.marker(venue, { icon: venueIcon })
+            .addTo(map)
+            .bindPopup("<b>Evento</b><br>Los Duraznos 119");
+
+        const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${entrance[1]},${entrance[0]};${venue[1]},${venue[0]}?overview=full&geometries=geojson`;
+
+        fetch(osrmUrl)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.routes && data.routes.length > 0) {
+                    const coords = data.routes[0].geometry.coordinates.map((c) => [c[1], c[0]]);
+                    L.polyline(coords, {
+                        color: "#000",
+                        weight: 4,
+                        opacity: 0.7,
+                    }).addTo(map);
+                    map.fitBounds(L.polyline(coords).getBounds(), { padding: [40, 40] });
+                }
+            })
+            .catch(() => {
+                L.polyline([entrance, venue], {
+                    color: "#000",
+                    weight: 3,
+                    opacity: 0.6,
+                    dashArray: "8, 8",
+                }).addTo(map);
+            });
+    });
+</script>

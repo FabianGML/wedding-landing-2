@@ -53,28 +53,21 @@
             .addTo(map)
             .bindPopup("<b>Evento</b><br>Los Duraznos 119");
 
-        const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${entrance[1]},${entrance[0]};${venue[1]},${venue[0]}?overview=full&geometries=geojson`;
+        const routeCoords = [
+            [23.977991,-104.681515],[23.977773,-104.680749],[23.977292,-104.680936],
+            [23.976421,-104.681292],[23.975966,-104.681476],[23.975452,-104.681704],
+            [23.975448,-104.681706],[23.974954,-104.681909],[23.97479,-104.681977],
+            [23.974715,-104.682007],[23.97468,-104.681913],[23.974595,-104.681631],
+            [23.974464,-104.681199],[23.974313,-104.680718],[23.974285,-104.680617],
+            [23.974287,-104.680519],[23.97418,-104.680182],[23.974103,-104.680214],
+            [23.973967,-104.679839],[23.973856,-104.67955],[23.973724,-104.679607],
+        ];
 
-        fetch(osrmUrl)
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.routes && data.routes.length > 0) {
-                    const coords = data.routes[0].geometry.coordinates.map((c) => [c[1], c[0]]);
-                    L.polyline(coords, {
-                        color: "#000",
-                        weight: 4,
-                        opacity: 0.7,
-                    }).addTo(map);
-                    map.fitBounds(L.polyline(coords).getBounds(), { padding: [40, 40] });
-                }
-            })
-            .catch(() => {
-                L.polyline([entrance, venue], {
-                    color: "#000",
-                    weight: 3,
-                    opacity: 0.6,
-                    dashArray: "8, 8",
-                }).addTo(map);
-            });
+        L.polyline(routeCoords, {
+            color: "#000",
+            weight: 4,
+            opacity: 0.8,
+        }).addTo(map);
+        map.fitBounds(L.polyline(routeCoords).getBounds(), { padding: [40, 40] });
     });
 </script>
